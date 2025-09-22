@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "@/assets/styles/globals.css";
+import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 
 const lato = Lato({
   subsets: ["latin-ext"],
@@ -9,9 +10,12 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "Asphalt Brothers",
-  description:
-    "Two wheels. One lifestyle. Premium motorcycle gear, clothing and accessories for riders who value both style and protection. Ride hard, look sharp.",
+  title: {
+    template: `%s | Asphalt Brothers`,
+    default: APP_NAME,
+  },
+  description: APP_DESCRIPTION,
+  metadataBase: new URL(SERVER_URL),
 };
 
 type Props = {
