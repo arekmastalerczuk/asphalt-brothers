@@ -23,14 +23,14 @@ const NotFound = () => {
         </div>
 
         {/* CONTENT */}
-        <div className="bg-background/80 mx-4 w-full max-w-md rounded-lg p-8 text-center shadow-lg backdrop-blur-sm">
+        <div className="bg-background/40 mx-4 w-full max-w-md rounded-lg p-8 text-center shadow-lg backdrop-blur-xs">
           <h1 className="mb-4 text-3xl font-bold">Error 404 - Not Found</h1>
           <p className="text-muted-foreground mb-6">
             Sorry, we can&apos;t find the page you&apos;re looking for.
           </p>
-          <Link href="/">
-            <Button size="lg">Back to {APP_NAME}</Button>
-          </Link>
+          <Button size="lg" asChild>
+            <Link href="/">Back to {APP_NAME}</Link>
+          </Button>
         </div>
       </main>
       <Footer />
