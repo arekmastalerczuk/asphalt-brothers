@@ -1,8 +1,8 @@
 import ProductCard from "./ProductCard";
+import { type Product } from "@/types";
 
 type Props = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any; // temp type
+  data: Product[];
   title?: string;
   limit?: number;
 };
@@ -14,7 +14,7 @@ const ProductList = ({ data, title, limit }: Props) => {
       <h2 className="h2-bold mb-4">{title}</h2>
       {limitedData.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {limitedData.map((product) => {
+          {limitedData.map((product: Product) => {
             return <ProductCard key={product.slug} product={product} />;
           })}
         </div>

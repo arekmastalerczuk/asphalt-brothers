@@ -2,10 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductPrice from "./ProductPrice";
+import { type Product } from "@/types";
 
 type Props = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  product: any;
+  product: Product;
 };
 
 const ProductCard = ({ product }: Props) => {
