@@ -13,13 +13,13 @@ const ProductCard = ({ product }: Props) => {
   return (
     <Card className="flex w-full max-w-sm flex-col justify-between">
       <CardHeader className="place-items-center p-0">
-        <Link href={`/products/${slug}`}>
+        <Link href={`/product/${slug}`}>
           <Image src={images[0]} alt={name} width={300} height={300} priority />
         </Link>
       </CardHeader>
       <CardContent className="grid gap-4 p-4">
         <p className="text-xs">{brand}</p>
-        <Link href={`/products/${slug}`}>
+        <Link href={`/product/${slug}`}>
           <h2 className="text-sm font-bold">{name}</h2>
         </Link>
         <div className="flex-between">
