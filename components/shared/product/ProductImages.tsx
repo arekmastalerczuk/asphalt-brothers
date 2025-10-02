@@ -11,7 +11,6 @@ type Props = {
 
 const ProductImages = ({ images, name }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log(images);
 
   return (
     <div className="space-y-4">
@@ -29,7 +28,7 @@ const ProductImages = ({ images, name }: Props) => {
             <div
               key={index}
               className={cn(
-                "cursor-pointer rounded-md border p-4 hover:border-orange-600",
+                "cursor-pointer rounded-md border p-4 duration-300 hover:border-orange-600",
                 index === currentIndex && "border-orange-600",
               )}
             >
@@ -39,6 +38,7 @@ const ProductImages = ({ images, name }: Props) => {
                 width={100}
                 height={100}
                 onClick={() => setCurrentIndex(index)}
+                className="duration-300 hover:scale-110"
               />
             </div>
           );

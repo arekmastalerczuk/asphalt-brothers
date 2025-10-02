@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 type Props = {
   readonly children: React.ReactNode;
 };
-const layout = ({ children }: Props) => {
+const RootLayout = ({ children }: Props) => {
   return (
     <div className="flex h-screen flex-col">
       <Header />
@@ -15,4 +15,4 @@ const layout = ({ children }: Props) => {
   );
 };
 
-export default layout;
+export default RootLayout;
