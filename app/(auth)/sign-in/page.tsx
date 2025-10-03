@@ -17,10 +17,16 @@ export const metadata: Metadata = {
   title: "Sign In",
 };
 
-const SignInPage = async () => {
+type Props = {
+  searchParams: Promise<{ callbackUrl: string }>;
+};
+
+const SignInPage = async ({ searchParams }: Props) => {
+  const { callbackUrl } = await searchParams;
+
   const session = await auth();
 
-  if (session) return redirect("/");
+  if (session) return redirect(callbackUrl || "/");
 
   return (
     <div className="mx-auto w-full max-w-md">
