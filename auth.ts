@@ -60,6 +60,9 @@ export const config = {
     async session({ session, user, trigger, token }: any) {
       // Set the user ID from the token
       session.user.id = token.sub;
+      // Add to session custom fields added in jwt function
+      session.user.role = token.role;
+      session.user.name = token.name;
 
       // If there is an update, set the user name
       if (trigger === "update") {
@@ -67,6 +70,30 @@ export const config = {
       }
 
       return session;
+    },
+    // Add custom fields to the token
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ session, user, trigger, token }: any) {
+      // Assign user fields to the token
+      if (user) {
+        token.role = user.role;
+
+        //  If user has no name then use first part of email
+        if (user.name === "NO_NAME") {
+          token.name = user.email!.split("@")[0];
+
+          // Update database to reflect the token name
+          await prisma.user.update({
+            where: {
+              id: user.id,
+            },
+            data: {
+              name: token.name,
+            },
+          });
+        }
+      }
+      return token;
     },
   },
 } satisfies NextAuthConfig;
