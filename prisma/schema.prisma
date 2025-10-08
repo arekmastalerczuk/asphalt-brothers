@@ -1,7 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../lib/generated/prisma"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
 }
 
 datasource db {
@@ -41,6 +40,7 @@ model User {
   updatedAt     DateTime  @updatedAt @db.Timestamp(6)
   Account       Account[]
   Session       Session[]
+  Cart          Cart[]
 }
 
 model Account {
@@ -79,4 +79,18 @@ model VerificationToken {
   expires    DateTime @db.Timestamp(6)
 
   @@id([identifier, token])
+}
+
+model Cart {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId        String?  @db.Uuid
+  sessionCartId String
+  items         Json[]   @default([]) @db.Json
+  itemsPrice    Decimal  @db.Decimal(9, 2)
+  taxPrice      Decimal  @db.Decimal(9, 2)
+  shippingPrice Decimal  @db.Decimal(9, 2)
+  totalPrice    Decimal  @db.Decimal(9, 2)
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime @updatedAt @db.Timestamp(6)
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
