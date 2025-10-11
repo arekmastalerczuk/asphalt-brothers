@@ -36,3 +36,12 @@ export function formatErrors(error: any) {
       : JSON.stringify(error.message);
   }
 }
+
+// Round number to 2 decimal places
+export function round2(value: number | string) {
+  const num = Number(value);
+  if (isNaN(num)) {
+    throw new Error("Value must be a valid number or numeric string");
+  }
+  return Math.round(num * 100) / 100;
+}
