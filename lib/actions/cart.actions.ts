@@ -172,7 +172,7 @@ export async function removeItemFromCart(productId: string) {
     if (!cart) throw new Error("Cart not found");
 
     // Check for item
-    const existItem = cart.items.find((i) => (i.productId = productId));
+    const existItem = cart.items.find((i) => i.productId === productId);
     if (!existItem) throw new Error("Item not found");
 
     // Check if only one in quantity
