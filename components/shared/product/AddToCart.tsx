@@ -81,7 +81,11 @@ const AddToCart = ({ item, cart }: Props) => {
     </div>
   ) : (
     <Button className="w-full" onClick={handleAddToCart}>
-      <Plus />
+      {isPending ? (
+        <Loader className="size-4 animate-spin" />
+      ) : (
+        <Plus className="size-4" />
+      )}
       Add to Cart
     </Button>
   );
