@@ -5,6 +5,7 @@ import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import ShippingAddressForm from "./ShippingAddressForm";
 import { ShippingAddress } from "@/types";
+import CheckoutSteps from "@/components/shared/CheckoutSteps";
 
 export const metadata: Metadata = {
   title: "Shipping Address",
@@ -25,6 +26,7 @@ const ShippingAddressPage = async () => {
 
   return (
     <div>
+      <CheckoutSteps current={1} />
       <ShippingAddressForm address={address as ShippingAddress} />
     </div>
   );
