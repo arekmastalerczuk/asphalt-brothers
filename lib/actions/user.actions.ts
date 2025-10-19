@@ -1,11 +1,16 @@
 "use server";
 
-import { signInFormSchema, signUpFormSchema } from "../validators";
+import {
+  shippingAddressSchema,
+  signInFormSchema,
+  signUpFormSchema,
+} from "../validators";
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { signIn, signOut } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { formatErrors } from "../utils";
+import { ShippingAddress } from "@/types";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -92,4 +97,39 @@ export async function getUserById(userId: string) {
   if (!user) throw new Error("User not found");
 
   return user;
+}
+
+// Update the user's address
+export async function updateUserAddress(data: ShippingAddress) {
+  try {
+    const session = await auth();
+    const currentUser = await prisma.user.findFirst({
+      where: {
+        id: session?.user?.id,
+      },
+    });
+
+    if (!currentUser) throw new Error("User not found");
+
+    const address = shippingAddressSchema.parse(data);
+
+    await prisma.user.update({
+      where: {
+        id: currentUser.id,
+      },
+      data: {
+        address,
+      },
+    });
+
+    return {
+      success: true,
+      message: "User address updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatErrors(error),
+    };
+  }
 }

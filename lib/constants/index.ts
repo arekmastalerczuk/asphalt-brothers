@@ -13,6 +13,7 @@ export const GITHUB_PROFILE = "https://github.com/arekmastalerczuk";
 export const LATEST_PRODUCTS_LIMIT =
   Number(process.env.LATEST_PRODUCTS_LIMIT) || 4;
 
+// TODO: remove default values when production build
 export const signInDefaultValues = {
   email: "user@example.com",
   password: "userpass123",
