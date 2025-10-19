@@ -17,6 +17,7 @@ export const signInDefaultValues = {
   email: "user@example.com",
   password: "userpass123",
 };
+
 export const signUpDefaultValues = {
   name: "",
   email: "",
@@ -25,3 +26,11 @@ export const signUpDefaultValues = {
 };
 
 export const MINIMUM_FOR_FREE_SHIPPING_PRICE = 100;
+
+export const shippingAddressDefaultValues = {
+  fullName: "",
+  streetAddress: "",
+  city: "",
+  postalCode: "",
+  country: "",
+};
