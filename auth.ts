@@ -4,6 +4,7 @@ import { compareSync } from "bcrypt-ts-edge";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/db/prisma";
 import { authConfig } from "./auth.config";
+import { cookies } from "next/headers";
 
 export const config = {
   pages: {
@@ -76,6 +77,7 @@ export const config = {
     async jwt({ session, user, trigger, token }: any) {
       // Assign user fields to the token
       if (user) {
+        token.id = user.id;
         token.role = user.role;
 
         //  If user has no name then use first part of email
@@ -92,7 +94,45 @@ export const config = {
             },
           });
         }
+
+        if (trigger === "signIn" || trigger === "signUp") {
+          const cookiesObj = await cookies();
+          const sessionCartId = cookiesObj.get("sessionCartId")?.value;
+
+          if (sessionCartId) {
+            const sessionCart = await prisma.cart.findFirst({
+              where: {
+                sessionCartId,
+              },
+            });
+
+            if (sessionCart) {
+              // Delete current user cart
+              await prisma.cart.deleteMany({
+                where: {
+                  userId: user.id,
+                },
+              });
+
+              // Assign new cart
+              await prisma.cart.update({
+                where: {
+                  id: sessionCart.id,
+                },
+                data: {
+                  userId: user.id,
+                },
+              });
+            }
+          }
+        }
       }
+
+      // Handle session updates
+      if (session?.user.name && trigger === "update") {
+        token.name = session.user.name;
+      }
+
       return token;
     },
     ...authConfig.callbacks,
