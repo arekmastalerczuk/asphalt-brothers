@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 export const authConfig = {
   providers: [], // Required by NextAuthConfig type
   callbacks: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     authorized({ request, auth }: any) {
       // Array of regex patterns of paths we want to protect
       const protectedPaths = [
@@ -20,9 +21,10 @@ export const authConfig = {
       const { pathname } = request.nextUrl;
 
       // Check if user is not authenticated and accessing a protected path
-      if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
+      if (!auth && protectedPaths.some((path) => path.test(pathname)))
+        return false;
 
-      // Check for session cart cookie
+      // Check for session cart cookie and generate it if it does not exist
       if (!request.cookies.get("sessionCartId")) {
         // Generate new session cart id cookie
         const sessionCartId = crypto.randomUUID();
