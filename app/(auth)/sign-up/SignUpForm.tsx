@@ -19,16 +19,6 @@ const SignUpForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  const SignUpButton = () => {
-    const { pending } = useFormStatus();
-
-    return (
-      <Button disabled={pending} className="w-full">
-        {!pending ? "Sign Up" : "Signing Up..."}
-      </Button>
-    );
-  };
-
   return (
     <form action={action}>
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
@@ -101,4 +91,15 @@ const SignUpForm = () => {
     </form>
   );
 };
+
+const SignUpButton = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button disabled={pending} className="w-full" type="submit">
+      {pending ? "Signing Up..." : "Sign Up"}
+    </Button>
+  );
+};
+
 export default SignUpForm;

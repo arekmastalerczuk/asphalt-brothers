@@ -19,16 +19,6 @@ const CredentialsSignInForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  const SignInButton = () => {
-    const { pending } = useFormStatus();
-
-    return (
-      <Button disabled={pending} className="w-full">
-        {!pending ? "Sign In" : "Signing In..."}
-      </Button>
-    );
-  };
-
   return (
     <form action={action}>
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
@@ -75,4 +65,15 @@ const CredentialsSignInForm = () => {
     </form>
   );
 };
+
+const SignInButton = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button disabled={pending} className="w-full" type="submit">
+      {pending ? "Signing In..." : "Sign In"}
+    </Button>
+  );
+};
+
 export default CredentialsSignInForm;
