@@ -45,7 +45,7 @@ const PaymentMethodForm = ({ preferredPaymentMethod }: Props) => {
         return;
       }
 
-      router.push("/checkout");
+      router.push("/place-order");
     });
   };
 
