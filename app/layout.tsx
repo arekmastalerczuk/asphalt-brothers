@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "@/components/ui/sonner";
 import "@/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: Props) {
         >
           {children}
           <Toaster position="top-center" duration={5000} />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
