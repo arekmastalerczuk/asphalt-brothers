@@ -111,3 +111,11 @@ export const insertOrderItemSchema = z.object({
   slug: z.string().min(1, "Product slug is required"),
   image: z.string().min(1, "Product image is required"),
 });
+
+// Schema for PayPal result
+export const paypalPaymentResultSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+  email_address: z.string(),
+  pricePaid: z.string(),
+});
