@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
-import Menu from "./Menu";
+import RightMenu from "../menu-right/MenuRight";
 
 const Header = () => {
   return (
@@ -22,7 +22,7 @@ const Header = () => {
             </span>
           </Link>
         </div>
-        <Menu />
+        <RightMenu />
       </div>
     </header>
   );

@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Footer from "@/components/Footer";
-import Header from "@/components/shared/header";
+import Footer from "@/components/shared/footer/Footer";
+import Header from "@/components/shared/header/Header";
 import { APP_NAME } from "@/lib/constants";
 
 const NotFound = () => {

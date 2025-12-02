@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "@/components/shared/header";
-import Footer from "@/components/Footer";
+import Header from "@/components/shared/header/Header";
+import Footer from "@/components/shared/footer/Footer";
 
 type Props = {
   readonly children: React.ReactNode;

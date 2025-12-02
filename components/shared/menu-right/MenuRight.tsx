@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { EllipsisVertical, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ModeToggle from "./ModeToggle";
+import ModeToggle from "../mode-toggle/ModeToggle";
 import {
   Sheet,
   SheetContent,
@@ -10,9 +10,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import UserButton from "./UserButton";
+import UserButton from "../user-button/UserButton";
 
-const Menu = () => {
+const RightMenu = () => {
   return (
     <div className="flex justify-end gap-4">
       <nav className="hidden w-full max-w-xs gap-2 md:flex">
@@ -46,4 +46,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default RightMenu;

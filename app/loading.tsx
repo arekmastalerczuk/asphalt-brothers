@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Header from "@/components/shared/header";
+import Header from "@/components/shared/header/Header";
 import loader from "@/assets/loader.gif";
-import Footer from "@/components/Footer";
+import Footer from "@/components/shared/footer/Footer";
 
 const Loading = () => {
   return (
