@@ -25,13 +25,25 @@ const Orders = async (props: { searchParams: Promise<{ page: string }> }) => {
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead className="font-bold">ID</TableHead>
-              <TableHead className="font-bold">Date</TableHead>
-              <TableHead className="font-bold">Total</TableHead>
-              <TableHead className="font-bold">Paid</TableHead>
-              <TableHead className="font-bold">Delivered</TableHead>
-              <TableHead className="font-bold">Actions</TableHead>
+            <TableRow className="bg-muted-foreground group">
+              <TableHead className="text-primary-foreground group-hover:text-primary rounded-tl-md text-lg font-bold">
+                ID
+              </TableHead>
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+                Date
+              </TableHead>
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+                Total
+              </TableHead>
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+                Paid
+              </TableHead>
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+                Delivered
+              </TableHead>
+              <TableHead className="text-primary-foreground group-hover:text-primary rounded-tr-md text-lg font-bold">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
