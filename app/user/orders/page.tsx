@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Pagination from "@/components/shared/Pagination";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -26,22 +27,22 @@ const Orders = async (props: { searchParams: Promise<{ page: string }> }) => {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted-foreground group">
-              <TableHead className="text-primary-foreground group-hover:text-primary rounded-tl-md text-lg font-bold">
+              <TableHead className="text-primary-foreground group-hover:text-primary rounded-tl-md text-lg font-bold transition-colors duration-300">
                 ID
               </TableHead>
-              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold transition-colors duration-300">
                 Date
               </TableHead>
-              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold transition-colors duration-300">
                 Total
               </TableHead>
-              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold transition-colors duration-300">
                 Paid
               </TableHead>
-              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold">
+              <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold transition-colors duration-300">
                 Delivered
               </TableHead>
-              <TableHead className="text-primary-foreground group-hover:text-primary rounded-tr-md text-lg font-bold">
+              <TableHead className="text-primary-foreground group-hover:text-primary rounded-tr-md text-lg font-bold transition-colors duration-300">
                 Actions
               </TableHead>
             </TableRow>
@@ -81,6 +82,14 @@ const Orders = async (props: { searchParams: Promise<{ page: string }> }) => {
             })}
           </TableBody>
         </Table>
+        {orders &&
+          typeof orders.totalPages === "number" &&
+          orders.totalPages > 1 && (
+            <Pagination
+              page={Number(page) || 1}
+              totalPages={orders.totalPages}
+            />
+          )}
       </div>
     </div>
   );
