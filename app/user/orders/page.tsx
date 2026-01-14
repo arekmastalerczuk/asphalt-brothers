@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { Eye } from "lucide-react";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { getMyOrders } from "@/lib/actions/order.actions";
 import {
@@ -16,8 +17,14 @@ export const metadata: Metadata = {
   title: "My Orders",
 };
 
-const Orders = async (props: { searchParams: Promise<{ page: string }> }) => {
-  const { page } = await props.searchParams;
+type Props = {
+  searchParams: {
+    page?: string;
+  };
+};
+
+const Orders = async ({ searchParams }: Props) => {
+  const { page } = await searchParams;
   const orders = await getMyOrders({ page: Number(page) || 1 });
 
   return (
@@ -75,7 +82,12 @@ const Orders = async (props: { searchParams: Promise<{ page: string }> }) => {
                       : "Not delivered"}
                   </TableCell>
                   <TableCell>
-                    <Link href={`/order/${id}`}>View</Link>
+                    <Link
+                      href={`/order/${id}`}
+                      className="flex items-center gap-2"
+                    >
+                      Details <Eye className="size-5" />
+                    </Link>
                   </TableCell>
                 </TableRow>
               );
@@ -87,7 +99,7 @@ const Orders = async (props: { searchParams: Promise<{ page: string }> }) => {
           orders.totalPages > 1 && (
             <Pagination
               page={Number(page) || 1}
-              totalPages={orders.totalPages}
+              totalPages={orders?.totalPages}
             />
           )}
       </div>

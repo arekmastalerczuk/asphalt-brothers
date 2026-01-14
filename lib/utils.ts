@@ -109,7 +109,7 @@ export const formatDateTime = (dateString: Date) => {
   };
 };
 
-// Create pagination strong
+// Create pagination string
 export const createUrlQuery = ({
   params,
   key,
@@ -123,10 +123,15 @@ export const createUrlQuery = ({
 
   query[key] = value;
 
-  const url = qs.stringifyUrl({
-    url: window.location.pathname,
-    query,
-  });
+  const url = qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query,
+    },
+    {
+      skipNull: true,
+    },
+  );
 
   return url;
 };

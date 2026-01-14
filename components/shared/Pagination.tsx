@@ -17,22 +17,22 @@ const Pagination = ({ page, totalPages, urlParamName }: Props) => {
   const handleClick = (btnType: "prev" | "next") => {
     const pageValue = btnType === "prev" ? Number(page) - 1 : Number(page) + 1;
 
-    const url = createUrlQuery({
+    const newUrl = createUrlQuery({
       params: searchParams.toString(),
       key: urlParamName || "page",
       value: pageValue.toString(),
     });
 
-    router.push(url);
+    router.push(newUrl);
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="mt-4 flex gap-2">
       <Button
         variant="outline"
         size="lg"
         className="w-28"
-        disabled={Number(page) === 1}
+        disabled={Number(page) <= 1}
         onClick={() => handleClick("prev")}
       >
         Previous
@@ -41,7 +41,7 @@ const Pagination = ({ page, totalPages, urlParamName }: Props) => {
         variant="outline"
         size="lg"
         className="w-28"
-        disabled={Number(page) === totalPages}
+        disabled={Number(page) >= totalPages}
         onClick={() => handleClick("next")}
       >
         Next
