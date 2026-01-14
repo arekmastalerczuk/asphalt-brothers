@@ -18,13 +18,12 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: {
-    page?: string;
-  };
+  searchParams: Promise<{ page: string }>;
 };
 
-const Orders = async ({ searchParams }: Props) => {
-  const { page } = await searchParams;
+const Orders = async (props: Props) => {
+  const { page } = await props.searchParams;
+
   const orders = await getMyOrders({ page: Number(page) || 1 });
 
   return (
