@@ -12,6 +12,7 @@ import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { formatErrors } from "../utils";
 import { PaymentMethod, ShippingAddress } from "@/types";
+import { revalidatePath } from "next/cache";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -190,6 +191,11 @@ export async function updateUserProfile(user: { name: string; email: string }) {
         name: user.name,
       },
     });
+
+    // Revalidate the profile page to show updated data
+    revalidatePath("/user/profile");
+    // Revalidate main page to update UserButton component
+    revalidatePath("/");
 
     return {
       success: true,

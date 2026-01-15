@@ -33,6 +33,7 @@ const ProfileForm = () => {
     const res = await updateUserProfile(values);
     if (!res.success) {
       toast.error(res.message);
+      return;
     }
 
     const newSession = {
@@ -45,6 +46,11 @@ const ProfileForm = () => {
 
     await update(newSession);
     toast.success("User updated successfully");
+
+    // Force page reload after a 3s delay to show toast
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   };
 
   return (
