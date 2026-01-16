@@ -1,4 +1,7 @@
+import { redirect } from "next/navigation";
+
 const page = () => {
-  return <div>page</div>;
+  redirect("/user/orders");
 };
+
 export default page;
