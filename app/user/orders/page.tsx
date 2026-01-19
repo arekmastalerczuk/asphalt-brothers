@@ -28,7 +28,7 @@ const Orders = async (props: Props) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="h2-bold">My Orders</h2>
+      <h1 className="h2-bold">My Orders</h1>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
