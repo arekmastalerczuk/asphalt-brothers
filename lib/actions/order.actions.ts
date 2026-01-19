@@ -351,7 +351,11 @@ type SalesDataType = {
 // Get sales data and order summary
 export async function getOrderSummary() {
   // Get counts for each resource
-  const ordersCount = await prisma.order.count();
+  const ordersCount = await prisma.order.count({
+    where: {
+      isPaid: true,
+    },
+  });
   const productsCount = await prisma.product.count();
   const usersCount = await prisma.user.count();
 
@@ -359,6 +363,9 @@ export async function getOrderSummary() {
   const totalSales = await prisma.order.aggregate({
     _sum: {
       totalPrice: true,
+    },
+    where: {
+      isPaid: true,
     },
   });
 
@@ -374,6 +381,9 @@ export async function getOrderSummary() {
 
   // Get latest sales
   const latestSales = await prisma.order.findMany({
+    where: {
+      isPaid: true,
+    },
     orderBy: {
       createdAt: "desc",
     },
