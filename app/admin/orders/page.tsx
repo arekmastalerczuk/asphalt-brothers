@@ -10,10 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import DeleteDialog from "@/components/shared/DeleteDialog";
 import Pagination from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { getAllOrders } from "@/lib/actions/order.actions";
+import { getAllOrders, deleteOrder } from "@/lib/actions/order.actions";
 
 export const metadata: Metadata = {
   title: "Admin Orders",
@@ -85,7 +86,7 @@ const AdminOrdersPage = async (props: Props) => {
                       ? formatDateTime(deliveredAt).dateTime
                       : "Not delivered"}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="flex items-center justify-center space-x-2">
                     <Button variant="outline" size="sm" asChild>
                       <Link
                         href={`/order/${id}`}
@@ -94,6 +95,7 @@ const AdminOrdersPage = async (props: Props) => {
                         Details <Eye className="size-5" />
                       </Link>
                     </Button>
+                    <DeleteDialog id={id} action={deleteOrder} />
                   </TableCell>
                 </TableRow>
               );
