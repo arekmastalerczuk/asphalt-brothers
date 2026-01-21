@@ -1,5 +1,5 @@
-import { auth } from "@/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -110,13 +110,15 @@ const AdminOverviewPage = async () => {
                       {formatCurrency(Number(order?.totalPrice))}
                     </TableCell>
                     <TableCell>
-                      <Link
-                        href={`/order/${order.id}`}
-                        className="flex items-center space-x-2"
-                      >
-                        <span>View</span>
-                        <Eye />
-                      </Link>
+                      <Button variant="outline" size="sm" asChild>
+                        <Link
+                          href={`/order/${order.id}`}
+                          className="flex items-center space-x-2"
+                        >
+                          <span>View</span>
+                          <Eye />
+                        </Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

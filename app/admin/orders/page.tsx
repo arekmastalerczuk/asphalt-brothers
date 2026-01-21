@@ -1,8 +1,7 @@
+import { auth } from "@/auth";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Eye } from "lucide-react";
-import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { getMyOrders } from "@/lib/actions/order.actions";
 import {
   Table,
   TableBody,
@@ -13,23 +12,28 @@ import {
 } from "@/components/ui/table";
 import Pagination from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
+import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { getAllOrders } from "@/lib/actions/order.actions";
 
 export const metadata: Metadata = {
-  title: "My Orders",
+  title: "Admin Orders",
 };
 
 type Props = {
   searchParams: Promise<{ page: string }>;
 };
 
-const Orders = async (props: Props) => {
-  const { page } = await props.searchParams;
+const AdminOrdersPage = async (props: Props) => {
+  const { page = "1" } = await props.searchParams;
+  const session = await auth();
 
-  const orders = await getMyOrders({ page: Number(page) || 1 });
+  if (session?.user?.role !== "admin") throw new Error("User not authorized");
+
+  const orders = await getAllOrders({ page: Number(page) });
 
   return (
     <div className="space-y-4">
-      <h1 className="h2-bold">My Orders</h1>
+      <h1 className="h2-bold">Admin Orders</h1>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -55,7 +59,7 @@ const Orders = async (props: Props) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.data?.map((order) => {
+            {orders?.data?.map((order) => {
               const {
                 id,
                 createdAt,
@@ -108,4 +112,4 @@ const Orders = async (props: Props) => {
     </div>
   );
 };
-export default Orders;
+export default AdminOrdersPage;
