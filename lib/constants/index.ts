@@ -28,6 +28,20 @@ export const signUpDefaultValues = {
 
 export const MINIMUM_FOR_FREE_SHIPPING_PRICE = 100;
 
+export const productDefaultValues = {
+  name: "",
+  slug: "",
+  category: "",
+  images: [],
+  brand: "",
+  description: "",
+  stock: 0,
+  price: "0.00",
+  isFeatured: false,
+  banner: null,
+  numReviews: "0",
+};
+
 export const shippingAddressDefaultValues = {
   fullName: "",
   streetAddress: "",
