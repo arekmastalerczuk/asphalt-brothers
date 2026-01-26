@@ -6,6 +6,7 @@ import { prisma } from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 import { CreateProduct, UpdateProduct } from "@/types";
 import { insertProductSchema, updateProductSchema } from "../validators";
+import { UTApi } from "uploadthing/server";
 
 // Get latest products
 export async function getLatestProducts() {
@@ -65,6 +66,33 @@ export async function deleteProduct(id: string) {
 
     if (!foundProduct) throw new Error("Product not found");
 
+    // Delete images from UploadThing if they exist
+    if (foundProduct.images && foundProduct.images.length > 0) {
+      const utapi = new UTApi();
+
+      // Extract file keys from URLs
+      const fileKeys = foundProduct.images
+        .filter((imageUrl: string) => imageUrl.includes("utfs.io"))
+        .map((imageUrl: string) => {
+          // Extract the file key from the URL
+          const urlParts = imageUrl.split("/");
+          return urlParts[urlParts.length - 1];
+        });
+
+      // Delete files from UploadThing only if we have valid file keys
+      if (fileKeys.length > 0) {
+        try {
+          await utapi.deleteFiles(fileKeys);
+        } catch (uploadError) {
+          console.error(
+            "Failed to delete files from UploadThing:",
+            uploadError,
+          );
+          // Continue with product deletion even if file deletion fails
+        }
+      }
+    }
+
     await prisma.product.delete({
       where: {
         id,
@@ -121,6 +149,38 @@ export async function updateProduct(data: UpdateProduct) {
     });
 
     if (!foundProduct) throw new Error("Product not found");
+
+    // Delete old images from UploadThing if images are being updated
+    if (
+      foundProduct.images &&
+      foundProduct.images.length > 0 &&
+      product.images
+    ) {
+      const utapi = new UTApi();
+
+      // Find images that are in the old product but not in the new one
+      const oldImageUrls = foundProduct.images.filter(
+        (imageUrl: string) =>
+          imageUrl.includes("utfs.io") && !product.images.includes(imageUrl),
+      );
+
+      if (oldImageUrls.length > 0) {
+        const fileKeys = oldImageUrls.map((imageUrl: string) => {
+          const urlParts = imageUrl.split("/");
+          return urlParts[urlParts.length - 1];
+        });
+
+        try {
+          await utapi.deleteFiles(fileKeys);
+        } catch (uploadError) {
+          console.error(
+            "Failed to delete old files from UploadThing:",
+            uploadError,
+          );
+          // Continue with product update even if file deletion fails
+        }
+      }
+    }
 
     // update the product
     await prisma.product.update({

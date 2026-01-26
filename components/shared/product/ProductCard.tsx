@@ -12,7 +12,7 @@ const ProductCard = ({ product }: Props) => {
   const { name, slug, images, brand, rating, price, stock } = product;
   return (
     <Card className="flex w-full max-w-sm flex-col justify-between">
-      <CardHeader className="place-items-center p-0">
+      <CardHeader className="flex h-full items-center justify-center p-0">
         <Link href={`/product/${slug}`}>
           <Image
             src={images[0]}
