@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +21,9 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { Card, CardContent } from "../ui/card";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
+import { UploadButton } from "@/lib/uploadthing";
 
 type Props = {
   type: "create" | "update";
@@ -76,6 +79,8 @@ const ProductForm = ({ type, product, productId }: Props) => {
       router.push("/admin/products");
     }
   };
+
+  const images = form.watch("images");
 
   return (
     <Form {...form}>
@@ -240,6 +245,44 @@ const ProductForm = ({ type, product, productId }: Props) => {
         </div>
         <div className="upload-field flex flex-col gap-5 md:flex-row">
           {/* Images */}
+          <FormField
+            name="images"
+            control={form.control}
+            render={() => (
+              <FormItem className="w-full">
+                <FormLabel>Images</FormLabel>
+                <Card className="rounded-md">
+                  <CardContent className="mt-2 flex min-h-48 items-start space-y-2">
+                    <div className="flex space-x-2">
+                      {images.map((image) => (
+                        <div key={image} className="overflow-hidden rounded-sm">
+                          <Image
+                            alt="product image"
+                            width={80}
+                            height={80}
+                            src={image}
+                            className="size-20 object-cover object-center transition-transform duration-500 hover:scale-110"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <FormControl className="ml-4">
+                      <UploadButton
+                        endpoint="imageUploader"
+                        onClientUploadComplete={(res: { url: string }[]) => {
+                          form.setValue("images", [...images, res[0].url]);
+                        }}
+                        onUploadError={(error: Error) => {
+                          toast.error(error.message);
+                        }}
+                      />
+                    </FormControl>
+                  </CardContent>
+                </Card>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <div className="upload-field">{/* isFeatured */}</div>
         <div>
