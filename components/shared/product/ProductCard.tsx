@@ -14,7 +14,14 @@ const ProductCard = ({ product }: Props) => {
     <Card className="flex w-full max-w-sm flex-col justify-between">
       <CardHeader className="place-items-center p-0">
         <Link href={`/product/${slug}`}>
-          <Image src={images[0]} alt={name} width={300} height={300} priority />
+          <Image
+            src={images[0]}
+            alt={name}
+            width={300}
+            height={300}
+            className="h-full w-full object-contain object-center"
+            priority
+          />
         </Link>
       </CardHeader>
       <CardContent className="grid gap-4 p-4">

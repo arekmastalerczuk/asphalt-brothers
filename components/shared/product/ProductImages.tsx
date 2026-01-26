@@ -19,7 +19,7 @@ const ProductImages = ({ images, name }: Props) => {
         alt={name}
         width={500}
         height={500}
-        className="min-h-[300px] object-cover object-center"
+        className="h-[300px] w-full object-contain object-center"
         priority
       />
       <div className="flex gap-x-2">
@@ -28,7 +28,7 @@ const ProductImages = ({ images, name }: Props) => {
             <div
               key={index}
               className={cn(
-                "cursor-pointer rounded-md border p-4 duration-300 hover:border-orange-600",
+                "flex h-[100px] w-[100px] cursor-pointer items-center rounded-md border p-4 duration-500 hover:border-orange-600",
                 index === currentIndex && "border-orange-600",
               )}
             >
@@ -38,7 +38,7 @@ const ProductImages = ({ images, name }: Props) => {
                 width={100}
                 height={100}
                 onClick={() => setCurrentIndex(index)}
-                className="duration-300 hover:scale-110"
+                className="h-full w-full object-contain duration-300 hover:scale-110"
               />
             </div>
           );
