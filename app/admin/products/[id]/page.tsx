@@ -8,9 +8,7 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 };
 
 const AdminProductUpdatePage = async ({ params }: Props) => {
