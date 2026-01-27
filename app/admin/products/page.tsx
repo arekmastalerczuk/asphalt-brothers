@@ -13,6 +13,7 @@ import {
 import Pagination from "@/components/shared/Pagination";
 import DeleteDialog from "@/components/shared/DeleteDialog";
 import { Pencil } from "lucide-react";
+import { requireAdmin } from "@/lib/auth-guard";
 
 type Props = {
   searchParams: Promise<{
@@ -24,6 +25,8 @@ type Props = {
 };
 
 const AdminProducts = async (props: Props) => {
+  await requireAdmin();
+
   const searchParams = await props.searchParams;
 
   const page = Number(searchParams.page) || 1;
