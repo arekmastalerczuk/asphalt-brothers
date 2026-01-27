@@ -39,8 +39,13 @@ const DeleteDialog = ({ id, action }: Props) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button size="sm" variant="destructive" className="ml-2">
-          Delete <Trash2 />
+        <Button
+          size="sm"
+          title="Delete"
+          variant="destructive"
+          className="ml-2 cursor-pointer"
+        >
+          <Trash2 />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

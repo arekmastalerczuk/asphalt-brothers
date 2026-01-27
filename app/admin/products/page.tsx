@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import Pagination from "@/components/shared/Pagination";
 import DeleteDialog from "@/components/shared/DeleteDialog";
+import { Pencil } from "lucide-react";
 
 type Props = {
   searchParams: Promise<{
@@ -70,8 +71,16 @@ const AdminProducts = async (props: Props) => {
                 <TableCell>{stock}</TableCell>
                 <TableCell>{rating}</TableCell>
                 <TableCell className="flex gap-1">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={`/admin/products/${id}`}>Edit</Link>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="cursor-pointer"
+                    title="Edit"
+                    asChild
+                  >
+                    <Link href={`/admin/products/${id}`}>
+                      <Pencil />
+                    </Link>
                   </Button>
                   <DeleteDialog id={id} action={deleteProduct} />
                 </TableCell>

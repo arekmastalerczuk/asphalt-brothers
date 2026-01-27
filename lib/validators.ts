@@ -20,8 +20,8 @@ export const insertProductSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   stock: z.coerce.number().min(0, "Stock must be at least 0") as z.ZodNumber,
   price: currency,
-  // isFeatured: z.boolean(),
-  // banner: z.string().nullable(),
+  isFeatured: z.boolean(),
+  banner: z.string().nullable(),
 });
 
 // schema for updating products

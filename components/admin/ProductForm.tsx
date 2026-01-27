@@ -22,6 +22,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Card, CardContent } from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { UploadButton } from "@/lib/uploadthing";
 
@@ -81,6 +82,8 @@ const ProductForm = ({ type, product, productId }: Props) => {
   };
 
   const images = form.watch("images");
+  const isFeatured = form.watch("isFeatured");
+  const banner = form.watch("banner");
 
   return (
     <Form {...form}>
@@ -252,8 +255,8 @@ const ProductForm = ({ type, product, productId }: Props) => {
               <FormItem className="w-full">
                 <FormLabel>Images</FormLabel>
                 <Card className="rounded-md">
-                  <CardContent className="mt-2 flex min-h-48 items-start space-y-2">
-                    <div className="flex space-x-2">
+                  <CardContent className="flex min-h-48 items-start space-y-2">
+                    <div className="flex gap-x-4">
                       {images.map((image) => (
                         <div key={image} className="overflow-hidden rounded-sm">
                           <Image
@@ -284,7 +287,59 @@ const ProductForm = ({ type, product, productId }: Props) => {
             )}
           />
         </div>
-        <div className="upload-field">{/* isFeatured */}</div>
+        <div className="upload-field">
+          {/* isFeatured */}
+          <FormField
+            control={form.control}
+            name="isFeatured"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof insertProductSchema>,
+                "isFeatured"
+              >;
+            }) => (
+              <FormItem>
+                <FormLabel>Featured Product</FormLabel>
+                <FormControl>
+                  <Card className="rounded-sm">
+                    <CardContent className="flex flex-col items-start gap-y-4">
+                      <div className="flex items-center gap-x-2">
+                        <Checkbox
+                          checked={field.value === true}
+                          onCheckedChange={field.onChange}
+                        />
+                        <span className="text-sm">Is Featured?</span>
+                      </div>
+                      {isFeatured && banner && (
+                        <Image
+                          src={banner}
+                          alt="Banner image"
+                          width={1920}
+                          height={680}
+                          className="w-full rounded-sm object-cover object-center"
+                        />
+                      )}
+                      {isFeatured && !banner && (
+                        <UploadButton
+                          endpoint="imageUploader"
+                          onClientUploadComplete={(res: { url: string }[]) => {
+                            form.setValue("banner", res[0].url);
+                          }}
+                          onUploadError={(error: Error) => {
+                            toast.error(error.message);
+                          }}
+                        />
+                      )}
+                    </CardContent>
+                  </Card>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div>
           {/* Description */}
           <FormField
