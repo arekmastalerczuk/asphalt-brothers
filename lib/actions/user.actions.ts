@@ -102,6 +102,7 @@ export async function getUserById(userId: string) {
       name: true,
       email: true,
       role: true,
+      paymentMethod: true,
     },
   });
 
