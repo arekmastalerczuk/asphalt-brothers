@@ -103,10 +103,11 @@ export async function getUserById(userId: string) {
       email: true,
       role: true,
       paymentMethod: true,
+      address: true,
     },
   });
 
-  // if (!user) throw new Error("User not found");
+  if (!user) throw new Error("User not found");
 
   return user;
 }
