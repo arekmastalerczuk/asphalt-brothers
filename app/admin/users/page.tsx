@@ -31,7 +31,6 @@ const AdminUsersPage = async ({ searchParams }: Props) => {
   const { page = "1" } = await searchParams;
 
   const users = await getAllUsers({ page: Number(page) });
-  console.log(users.data);
 
   return (
     <div className="space-y-2">

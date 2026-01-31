@@ -3,11 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { hashSync } from "bcrypt-ts-edge";
+import z from "zod";
 import {
   paymentMethodSchema,
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
+  updateUserSchema,
 } from "../validators";
 import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
@@ -95,9 +97,15 @@ export async function getUserById(userId: string) {
     where: {
       id: userId,
     },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
   });
 
-  if (!user) throw new Error("User not found");
+  // if (!user) throw new Error("User not found");
 
   return user;
 }
@@ -254,6 +262,33 @@ export async function deleteUser(id: string) {
     return {
       success: true,
       message: "User deleted successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatErrors(error),
+    };
+  }
+}
+
+// Update a user
+export async function updateUser(user: z.infer<typeof updateUserSchema>) {
+  try {
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        name: user.name,
+        role: user.role,
+      },
+    });
+
+    revalidatePath("/admin/users");
+
+    return {
+      success: true,
+      message: "User updated successfully",
     };
   } catch (error) {
     return {

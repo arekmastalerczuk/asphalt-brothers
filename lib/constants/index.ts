@@ -15,8 +15,8 @@ export const LATEST_PRODUCTS_LIMIT =
 
 // TODO: remove default values when production build
 export const signInDefaultValues = {
-  email: "user@example.com",
-  password: "userpass123",
+  email: "admin@example.com",
+  password: "",
 };
 
 export const signUpDefaultValues = {
@@ -58,3 +58,8 @@ export const DEFAULT_PAYMENT_METHOD =
   process.env.DEFAULT_PAYMENT_METHOD || "PayPal";
 
 export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 10;
+
+export const USER_ROLES = process.env.NEXT_PUBLIC_USER_ROLES?.split(",") || [
+  "admin",
+  "user",
+];

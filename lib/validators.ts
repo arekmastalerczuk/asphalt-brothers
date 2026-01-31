@@ -1,6 +1,6 @@
 import * as z from "zod";
 import { formatNumberWithDecimal } from "./utils";
-import { PAYMENT_METHODS } from "./constants";
+import { PAYMENT_METHODS, USER_ROLES } from "./constants";
 
 // helper function for currency validation
 const currency = z
@@ -129,4 +129,16 @@ export const paypalPaymentResultSchema = z.object({
 export const updateUserProfileSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   email: z.email("Invalid email address"),
+});
+
+// Schema for update users by admin
+export const updateUserSchema = updateUserProfileSchema.extend({
+  id: z.string().min(1, "ID is required"),
+  role: z
+    .string()
+    .min(1, "Role is required")
+    .refine((data) => USER_ROLES.includes(data), {
+      message: "Invalid role",
+      path: ["role"],
+    }),
 });
