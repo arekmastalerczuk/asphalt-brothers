@@ -22,19 +22,32 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ page: string }>;
+  searchParams: Promise<{ page: string; query: string }>;
 };
 
 const AdminUsersPage = async ({ searchParams }: Props) => {
   await requireAdmin();
 
-  const { page = "1" } = await searchParams;
+  const { page = "1", query = "" } = await searchParams;
 
-  const users = await getAllUsers({ page: Number(page) });
+  const users = await getAllUsers({ page: Number(page), query });
 
   return (
     <div className="space-y-2">
-      <h1 className="h2-bold">Users</h1>
+      <div className="flex items-center gap-4">
+        <h1 className="h2-bold">Users</h1>
+        {query && (
+          <div className="flex items-center gap-x-3">
+            <p className="text-sm">
+              Filtered by <span className="italic">&quot;{query}&quot;</span>
+            </p>
+
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/admin/orders">Remove filter</Link>
+            </Button>
+          </div>
+        )}
+      </div>
       {users?.data.length === 0 && <p>No users found.</p>}
       {users?.data.length > 0 && (
         <>

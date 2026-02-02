@@ -2,6 +2,7 @@
 
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@/lib/generated/prisma";
 import { convertToPlainObject, formatErrors } from "@/lib/utils";
 import { auth } from "@/auth";
 import { getMyCart } from "./cart.actions";
@@ -11,7 +12,6 @@ import { prisma } from "@/db/prisma";
 import { CartItem, PaymentResult } from "@/types";
 import { paypal } from "../paypal";
 import { PAGE_SIZE } from "../constants";
-import { Prisma } from "@/lib/generated/prisma";
 
 // Create order anc create the order items
 export async function createOrder() {
@@ -411,11 +411,28 @@ export async function getOrderSummary() {
 export async function getAllOrders({
   limit = PAGE_SIZE,
   page,
+  query,
 }: {
   limit?: number;
   page: number;
+  query: string;
 }) {
+  const queryFilter: Prisma.OrderWhereInput =
+    query && query !== ""
+      ? {
+          user: {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+        }
+      : {};
+
   const data = await prisma.order.findMany({
+    where: {
+      ...queryFilter,
+    },
     orderBy: {
       createdAt: "desc",
     },

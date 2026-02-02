@@ -30,11 +30,11 @@ const AdminProducts = async (props: Props) => {
   const searchParams = await props.searchParams;
 
   const page = Number(searchParams.page) || 1;
-  const searchTerm = searchParams.query || "";
+  const query = searchParams.query || "";
   const category = searchParams.category || "";
 
   const products = await getAllProducts({
-    query: searchTerm,
+    query,
     page,
     category,
   });
@@ -42,7 +42,20 @@ const AdminProducts = async (props: Props) => {
   return (
     <>
       <div className="flex-between">
-        <h1 className="h2-bold">Products</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="h2-bold">Products</h1>
+          {query && (
+            <div className="flex items-center gap-x-3">
+              <p className="text-sm">
+                Filtered by <span className="italic">&quot;{query}&quot;</span>
+              </p>
+
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/admin/products">Remove filter</Link>
+              </Button>
+            </div>
+          )}
+        </div>
         <Button asChild>
           <Link href="/admin/products/create">+ Create Product</Link>
         </Button>

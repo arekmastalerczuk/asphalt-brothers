@@ -1,12 +1,13 @@
 "use server";
 
+import { UTApi } from "uploadthing/server";
 import { convertToPlainObject, formatErrors } from "../utils";
 import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
 import { prisma } from "@/db/prisma";
+import { Prisma } from "../generated/prisma";
 import { revalidatePath } from "next/cache";
 import { CreateProduct, UpdateProduct } from "@/types";
 import { insertProductSchema, updateProductSchema } from "../validators";
-import { UTApi } from "uploadthing/server";
 
 // Get latest products
 export async function getLatestProducts() {
@@ -52,7 +53,20 @@ export async function getAllProducts({
   page: number;
   category?: string;
 }) {
+  const queryFilter: Prisma.ProductWhereInput =
+    query && query !== ""
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          } as Prisma.StringFilter,
+        }
+      : {};
+
   const data = await prisma.product.findMany({
+    where: {
+      ...queryFilter,
+    },
     skip: (page - 1) * limit,
     take: limit,
     orderBy: {

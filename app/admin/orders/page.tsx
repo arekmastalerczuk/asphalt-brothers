@@ -22,22 +22,32 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ page: string }>;
+  searchParams: Promise<{ page: string; query: string }>;
 };
 
 const AdminOrdersPage = async (props: Props) => {
   await requireAdmin();
 
-  const { page = "1" } = await props.searchParams;
-  // const session = await auth();
+  const { page = "1", query = "" } = await props.searchParams;
 
-  // if (session?.user?.role !== "admin") throw new Error("User not authorized");
-
-  const orders = await getAllOrders({ page: Number(page) });
+  const orders = await getAllOrders({ page: Number(page), query });
 
   return (
     <div className="space-y-4">
-      <h1 className="h2-bold">Admin Orders</h1>
+      <div className="flex items-center gap-4">
+        <h1 className="h2-bold">Admin Orders</h1>
+        {query && (
+          <div className="flex items-center gap-x-3">
+            <p className="text-sm">
+              Filtered by <span className="italic">&quot;{query}&quot;</span>
+            </p>
+
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/admin/orders">Remove filter</Link>
+            </Button>
+          </div>
+        )}
+      </div>
       {orders?.data.length > 0 && (
         <div className="overflow-x-auto">
           <Table>
@@ -45,6 +55,9 @@ const AdminOrdersPage = async (props: Props) => {
               <TableRow className="bg-muted-foreground group">
                 <TableHead className="text-primary-foreground group-hover:text-primary rounded-tl-md text-lg font-bold transition-colors duration-300">
                   ID
+                </TableHead>
+                <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold transition-colors duration-300">
+                  Buyer
                 </TableHead>
                 <TableHead className="text-primary-foreground group-hover:text-primary text-lg font-bold transition-colors duration-300">
                   Date
@@ -67,6 +80,7 @@ const AdminOrdersPage = async (props: Props) => {
               {orders?.data?.map((order) => {
                 const {
                   id,
+                  user,
                   createdAt,
                   totalPrice,
                   isPaid,
@@ -78,6 +92,7 @@ const AdminOrdersPage = async (props: Props) => {
                 return (
                   <TableRow key={id}>
                     <TableCell>{formatId(id)}</TableCell>
+                    <TableCell>{user.name}</TableCell>
                     <TableCell>{formatDateTime(createdAt).dateTime}</TableCell>
                     <TableCell>{formatCurrency(totalPrice)}</TableCell>
                     <TableCell>
