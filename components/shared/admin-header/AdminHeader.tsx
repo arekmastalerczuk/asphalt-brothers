@@ -4,12 +4,14 @@ import { APP_NAME } from "@/lib/constants";
 import RightMenu from "../menu-right/MenuRight";
 import MainNavAdmin from "@/app/admin/MainNavAdmin";
 import AdminSearch from "@/components/admin/AdminSearch";
+import CategoryDrawer from "../header/CategoryDrawer";
 
 const AdminHeader = () => {
   return (
     <header className="w-full border-b">
       <div className="wrapper flex-between">
-        <div className="flex-start">
+        <div className="flex-start gap-x-4">
+          <CategoryDrawer />
           <Link href="/" className="flex-start">
             <Image
               src="/images/logo.png"
