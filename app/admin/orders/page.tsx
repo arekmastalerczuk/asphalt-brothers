@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Eye } from "lucide-react";
