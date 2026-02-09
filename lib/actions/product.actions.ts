@@ -59,6 +59,7 @@ export async function getAllProducts({
   rating?: string;
   sort?: string;
 }) {
+  // Query filter
   const queryFilter: Prisma.ProductWhereInput =
     query && query !== ""
       ? {
@@ -69,9 +70,43 @@ export async function getAllProducts({
         }
       : {};
 
+  // Category filter
+  const categoryFilter: Prisma.ProductWhereInput =
+    category && category !== "all"
+      ? {
+          category,
+        }
+      : {};
+
+  // Price filter
+  const priceFilter: Prisma.ProductWhereInput =
+    price && price !== "all"
+      ? {
+          price: {
+            gte: Number(price.replace("+", "").split("-")[0]),
+            ...(price.includes("-") && !price.endsWith("-")
+              ? { lte: Number(price.split("-")[1]) }
+              : {}),
+          },
+        }
+      : {};
+
+  // Rating filter
+  const ratingFilter: Prisma.ProductWhereInput =
+    rating && rating !== "all"
+      ? {
+          rating: {
+            gte: Number(rating),
+          },
+        }
+      : {};
+
   const data = await prisma.product.findMany({
     where: {
       ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
     },
     skip: (page - 1) * limit,
     take: limit,
@@ -80,11 +115,19 @@ export async function getAllProducts({
     },
   });
 
-  const dataCount = await prisma.product.count();
+  const dataCount = await prisma.product.count({
+    where: {
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    },
+  });
 
   return {
     data,
     totalPages: Math.ceil(dataCount / limit),
+    dataCount,
   };
 }
 
