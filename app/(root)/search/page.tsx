@@ -7,6 +7,7 @@ import {
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { Metadata } from "next";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Search",
@@ -37,6 +38,8 @@ const PRICES_RANGE = [
 ];
 
 const RATINGS = [4, 3, 2, 1];
+
+const SORT_ORDERS = ["newest", "lowest", "highest", "rating"];
 
 const SearchPage = async ({ searchParams }: Props) => {
   const {
@@ -180,13 +183,71 @@ const SearchPage = async ({ searchParams }: Props) => {
         </div>
       </div>
       <div className="space-y-4 md:col-span-4">
-        <div className="flex items-center gap-x-2">
-          <h1 className="h2-bold">Search results</h1>
-          {products.dataCount > 0 && (
-            <span className="text-sm italic">
-              ({products.dataCount}) products found
-            </span>
-          )}
+        <div className="flex flex-col">
+          <div className="flex-between flex-col md:flex-row">
+            {/* Show selected filters */}
+            <div className="flex items-center gap-x-4 text-sm">
+              {q !== "all" && q !== "" && (
+                <div>
+                  <span className="font-bold">Query: </span>
+                  <span>{q}</span>
+                </div>
+              )}
+              {category !== "all" && (
+                <div>
+                  <span className="font-bold">Category: </span>
+                  <span>{category}</span>
+                </div>
+              )}
+              {price !== "all" && (
+                <div>
+                  <span className="font-bold">Price: </span>
+                  <span>${price}</span>
+                </div>
+              )}
+              {rating !== "all" && (
+                <div>
+                  <span className="font-bold">Rating: </span>
+                  <span className="inline-flex items-center gap-x-1">
+                    {rating}+
+                    <FaStar className="size-4" />
+                  </span>
+                </div>
+              )}
+              {(q !== "all" && q !== "") ||
+              category !== "all" ||
+              price !== "all" ||
+              rating !== "all" ? (
+                <Button variant="outline" className="ml-2" asChild>
+                  <Link href="/search">Clear</Link>
+                </Button>
+              ) : null}
+            </div>
+            {/* Sorting */}
+            <div className="flex items-center gap-x-2">
+              <span className="text-sm">Sort by: </span>
+              <ul className="flex items-center gap-x-2">
+                {SORT_ORDERS.map((item) => (
+                  <li key={item}>
+                    <Link
+                      href={getFilterUrl({ s: item })}
+                      className={`${sort === item && "font-bold"} text-sm`}
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-4 flex items-center gap-x-2">
+            <h1 className="h2-bold">Search results</h1>
+            {products.dataCount > 0 && (
+              <span className="text-sm italic">
+                ({products.dataCount}) products found
+              </span>
+            )}
+          </div>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {products.data.length === 0 && <p>No products found.</p>}

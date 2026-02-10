@@ -204,7 +204,7 @@ const sampleData = {
       ],
       price: "159.99",
       brand: "Rebelhorn",
-      rating: "4.3",
+      rating: "2.3",
       numReviews: 14,
       stock: 10,
     },
