@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductPrice from "./ProductPrice";
 import { type Product } from "@/types";
+import { FaStar } from "react-icons/fa";
 
 type Props = {
   product: Product;
@@ -30,7 +31,9 @@ const ProductCard = ({ product }: Props) => {
           <h2 className="text-sm font-bold">{name}</h2>
         </Link>
         <div className="flex-between">
-          <p>{rating} stars</p>
+          <p className="flex items-center gap-1">
+            {rating} <FaStar className="size-4" />
+          </p>
           {stock > 0 ? (
             <ProductPrice value={Number(price)} />
           ) : (

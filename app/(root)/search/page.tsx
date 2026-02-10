@@ -8,7 +8,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import SortOptions from "@/app/components/shared/SortOptions";
+import SortOptions from "@/components/shared/SortOptions";
 
 export async function generateMetadata(props: {
   searchParams: Promise<{

@@ -6,6 +6,7 @@ import ProductPrice from "@/components/shared/product/ProductPrice";
 import ProductImages from "@/components/shared/product/ProductImages";
 import AddToCart from "@/components/shared/product/AddToCart";
 import { getMyCart } from "@/lib/actions/cart.actions";
+import { FaStar } from "react-icons/fa";
 
 type Props = {
   params: Promise<{
@@ -49,8 +50,8 @@ const ProductDetails = async ({ params }: Props) => {
                 {brand} {category}
               </p>
               <h1 className="h3-bold">{name}</h1>
-              <p>
-                {rating} of {numReviews} Reviews
+              <p className="flex items-center gap-x-1">
+                {rating} <FaStar className="size-4" /> of {numReviews} Reviews
               </p>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <ProductPrice
