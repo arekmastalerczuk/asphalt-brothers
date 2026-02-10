@@ -8,11 +8,38 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import SortOptions from "@/app/components/shared/SortOptions";
 
-export const metadata: Metadata = {
-  title: "Search",
-  description: "Search products",
-};
+export async function generateMetadata(props: {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+    price?: string;
+    rating?: string;
+  }>;
+}): Promise<Metadata> {
+  const {
+    q = "all",
+    category = "all",
+    price = "all",
+    rating = "all",
+  } = await props.searchParams;
+
+  const isQuerySet = q && q !== "all" && q.trim() !== "";
+  const isCategorySet = category && category !== "all";
+  const isPriceSet = price && price !== "all";
+  const isRatingSet = rating && rating !== "all";
+
+  if (isQuerySet || isCategorySet || isPriceSet || isRatingSet) {
+    return {
+      title: `Search ${isQuerySet ? `for "${q}"` : ""} ${isCategorySet ? `in category: ${category}` : ""} ${isPriceSet ? `for $${price}` : ""} ${isRatingSet ? `with ${rating}+ stars` : ""}`,
+    };
+  }
+
+  return {
+    title: "Search products",
+  };
+}
 
 type Props = {
   searchParams: Promise<{
@@ -38,8 +65,6 @@ const PRICES_RANGE = [
 ];
 
 const RATINGS = [4, 3, 2, 1];
-
-const SORT_ORDERS = ["newest", "lowest", "highest", "rating"];
 
 const SearchPage = async ({ searchParams }: Props) => {
   const {
@@ -223,22 +248,7 @@ const SearchPage = async ({ searchParams }: Props) => {
                 </Button>
               ) : null}
             </div>
-            {/* Sorting */}
-            <div className="flex items-center gap-x-2">
-              <span className="text-sm">Sort by: </span>
-              <ul className="flex items-center gap-x-2">
-                {SORT_ORDERS.map((item) => (
-                  <li key={item}>
-                    <Link
-                      href={getFilterUrl({ s: item })}
-                      className={`${sort === item && "font-bold"} text-sm`}
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <SortOptions sort={sort} />
           </div>
           <div className="mt-4 flex items-center gap-x-2">
             <h1 className="h2-bold">Search results</h1>
