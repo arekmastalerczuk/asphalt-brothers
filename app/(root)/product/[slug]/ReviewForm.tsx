@@ -34,7 +34,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createAndUpdateReview } from "@/lib/actions/review.actions";
+import {
+  createAndUpdateReview,
+  getReviewByProductId,
+} from "@/lib/actions/review.actions";
 
 type Props = {
   userId: string;
@@ -51,9 +54,17 @@ const ReviewForm = ({ userId, productId, onReviewSubmitted }: Props) => {
   });
 
   // Open form handler
-  const handleOpenForm = () => {
+  const handleOpenForm = async () => {
     form.setValue("productId", productId);
     form.setValue("userId", userId);
+
+    const review = await getReviewByProductId({ productId });
+
+    if (review?.data) {
+      form.setValue("title", review.data.title);
+      form.setValue("description", review.data.description);
+      form.setValue("rating", review.data.rating);
+    }
     setOpen(true);
   };
 

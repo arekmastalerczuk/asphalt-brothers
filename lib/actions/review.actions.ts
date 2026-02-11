@@ -88,7 +88,7 @@ export async function createAndUpdateReview(
       });
     });
 
-    revalidatePath(`/products/${product.slug}`);
+    revalidatePath(`/product/${product.slug}`);
 
     return {
       success: true,
@@ -100,4 +100,51 @@ export async function createAndUpdateReview(
       message: formatErrors(error),
     };
   }
+}
+
+// Get all reviews for a product
+export async function getAllReviewsForProduct({
+  productId,
+}: {
+  productId: string;
+}) {
+  const data = await prisma.review.findMany({
+    where: {
+      productId,
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return { data };
+}
+
+// Get a review written by the current user
+export async function getReviewByProductId({
+  productId,
+}: {
+  productId: string;
+}) {
+  const session = await auth();
+
+  if (!session) throw new Error("User is not authenticated");
+
+  const userId = session?.user?.id;
+
+  const productReview = await prisma.review.findFirst({
+    where: {
+      userId,
+      productId,
+    },
+  });
+
+  return { data: productReview };
 }

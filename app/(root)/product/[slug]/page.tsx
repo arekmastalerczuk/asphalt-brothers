@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/actions/product.actions";
+import { FaStar } from "react-icons/fa";
+import { auth } from "@/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ProductPrice from "@/components/shared/product/ProductPrice";
 import ProductImages from "@/components/shared/product/ProductImages";
 import AddToCart from "@/components/shared/product/AddToCart";
-import { getMyCart } from "@/lib/actions/cart.actions";
-import { FaStar } from "react-icons/fa";
-import { auth } from "@/auth";
 import ReviewList from "./ReviewList";
+import { getProductBySlug } from "@/lib/actions/product.actions";
+import { getMyCart } from "@/lib/actions/cart.actions";
+import Rating from "@/components/shared/product/Rating";
 
 type Props = {
   params: Promise<{
@@ -55,8 +56,9 @@ const ProductDetails = async ({ params }: Props) => {
                 {brand} {category}
               </p>
               <h1 className="h3-bold">{name}</h1>
-              <p className="flex items-center gap-x-1">
-                {rating} <FaStar className="size-4" /> of {numReviews} Reviews
+              <Rating value={Number(rating)} />
+              <p>
+                {numReviews} {numReviews === 1 ? "review" : "reviews"}
               </p>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <ProductPrice
