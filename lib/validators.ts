@@ -142,3 +142,16 @@ export const updateUserSchema = updateUserProfileSchema.extend({
       path: ["role"],
     }),
 });
+
+// Schema for create a review
+export const createReviewSchema = z.object({
+  userId: z.string().min(1, "User ID is required"),
+  productId: z.string().min(1, "Product ID is required"),
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  description: z.string().min(3, "Description must be at least 3 characters"),
+  rating: z.coerce
+    .number()
+    .int()
+    .min(1, "Rating must be at least 1 star")
+    .max(5, "Rating must be at most 5 stars") as z.ZodNumber,
+});
