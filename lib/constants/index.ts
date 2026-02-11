@@ -63,3 +63,9 @@ export const USER_ROLES = process.env.NEXT_PUBLIC_USER_ROLES?.split(",") || [
   "admin",
   "user",
 ];
+
+export const reviewFormDefaultValues = {
+  title: "",
+  description: "",
+  rating: 0,
+};

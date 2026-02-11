@@ -7,6 +7,8 @@ import ProductImages from "@/components/shared/product/ProductImages";
 import AddToCart from "@/components/shared/product/AddToCart";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { FaStar } from "react-icons/fa";
+import { auth } from "@/auth";
+import ReviewList from "./ReviewList";
 
 type Props = {
   params: Promise<{
@@ -15,6 +17,9 @@ type Props = {
 };
 
 const ProductDetails = async ({ params }: Props) => {
+  const session = await auth();
+  const userId = session?.user?.id;
+
   const { slug } = await params;
 
   const product = await getProductBySlug(slug);
@@ -104,6 +109,10 @@ const ProductDetails = async ({ params }: Props) => {
             </Card>
           </div>
         </div>
+      </section>
+      <section className="mt-8">
+        <h2 className="h2-bold my-4">Customer Reviews</h2>
+        <ReviewList userId={userId || ""} productId={id} productSlug={slug} />
       </section>
     </>
   );
