@@ -28,14 +28,21 @@ import {
   deliverOrder,
 } from "@/lib/actions/order.actions";
 import { toast } from "sonner";
+import StripePayment from "./StripePayment";
 
 type Props = {
   order: Order;
   paypalClientId: string;
+  stripeClientSecret: string | null;
   isAdmin: boolean;
 };
 
-const OrderDetailsTable = ({ order, paypalClientId, isAdmin }: Props) => {
+const OrderDetailsTable = ({
+  order,
+  paypalClientId,
+  stripeClientSecret,
+  isAdmin,
+}: Props) => {
   const {
     id,
     shippingAddress,
@@ -238,6 +245,14 @@ const OrderDetailsTable = ({ order, paypalClientId, isAdmin }: Props) => {
                     />
                   </PayPalScriptProvider>
                 </div>
+              )}
+              {/* StripePayment */}
+              {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(totalPrice) * 100}
+                  orderId={id}
+                  clientSecret={stripeClientSecret}
+                />
               )}
               {/* Cash On Delivery */}
               {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
