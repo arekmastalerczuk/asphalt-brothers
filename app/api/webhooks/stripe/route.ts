@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const orderId = object.metadata.objectId;
 
     // Check if order exists and is already paid to prevent duplicate processing
-    const order = await prisma.order.findUnique({
+    const order = await prisma.order.findFirst({
       where: { id: orderId },
       select: { isPaid: true, paymentResult: true },
     });
