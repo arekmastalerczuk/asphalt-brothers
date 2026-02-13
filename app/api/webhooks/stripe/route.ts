@@ -1,6 +1,7 @@
 import { updateOrderToPaid } from "@/lib/actions/order.actions";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { prisma } from "@/db/prisma";
 
 export async function POST(req: NextRequest) {
   // Build the webhook event
@@ -13,10 +14,28 @@ export async function POST(req: NextRequest) {
   // Check for successful payment
   if (event.type === "charge.succeeded") {
     const { object } = event.data;
+    const orderId = object.metadata.objectId;
+
+    // Check if order exists and is already paid to prevent duplicate processing
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      select: { isPaid: true, paymentResult: true },
+    });
+
+    if (!order) {
+      return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
+
+    if (order.isPaid) {
+      return NextResponse.json({
+        message: "Order already processed - duplicate webhook",
+        orderId,
+      });
+    }
 
     // Update order status
     await updateOrderToPaid({
-      orderId: object.metadata.objectId,
+      orderId,
       paymentResult: {
         id: object.id,
         status: "COMPLETED",
