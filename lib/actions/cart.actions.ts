@@ -5,7 +5,7 @@ import { CartItem } from "@/types";
 import { convertToPlainObject, formatErrors, round2 } from "../utils";
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
-import { cartItemSchema, insertCartSchema } from "../validators";
+import { insertCartSchema } from "../validators";
 import { MINIMUM_FOR_FREE_SHIPPING_PRICE } from "../constants";
 import { revalidatePath } from "next/cache";
 
@@ -46,7 +46,7 @@ export async function addItemToCart(item: CartItem) {
     const cart = await getMyCart();
 
     // Parse and validate item
-    const parsedItem = cartItemSchema.parse(item);
+    // const parsedItem = cartItemSchema.parse(item);
 
     // Find product in database
     const product = await prisma.product.findFirst({

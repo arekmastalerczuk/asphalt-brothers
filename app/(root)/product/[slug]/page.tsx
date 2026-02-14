@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { FaStar } from "react-icons/fa";
 import { auth } from "@/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

@@ -19,16 +19,12 @@ import {
 } from "@/components/ui/select";
 import { updateUser } from "@/lib/actions/user.actions";
 import { USER_ROLES } from "@/lib/constants";
-import { updateUserProfileSchema, updateUserSchema } from "@/lib/validators";
+import { updateUserSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-
-type Props = {
-  user: z.infer<typeof updateUserProfileSchema>;
-};
 
 const UpdateUserForm = ({
   user,
