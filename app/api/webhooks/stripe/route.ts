@@ -1,7 +1,6 @@
 import { updateOrderToPaid } from "@/lib/actions/order.actions";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { prisma } from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function POST(req: NextRequest) {
