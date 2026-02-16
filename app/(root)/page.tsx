@@ -6,6 +6,7 @@ import {
 } from "@/lib/actions/product.actions";
 import ProductCarousel from "@/components/shared/product/ProductCarousel";
 import ViewAllProductsButton from "@/components/ViewAllProductsButton";
+import IconBoxes from "@/components/IconBoxes";
 
 export const metadata = {
   title: "Home",
@@ -22,6 +23,7 @@ const Homepage = async () => {
       )}
       <ProductList data={latestProducts} title="Newest Stuff" limit={4} />
       <ViewAllProductsButton />
+      <IconBoxes />
     </>
   );
 };
