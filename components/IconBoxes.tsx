@@ -4,9 +4,9 @@ import { MINIMUM_FOR_FREE_SHIPPING_PRICE } from "@/lib/constants";
 
 const IconBoxes = () => {
   return (
-    <div>
+    <div className="my-12">
       <Card>
-        <CardContent className="grid gap-4 p-4 md:grid-cols-4">
+        <CardContent className="grid gap-y-8 p-4 md:grid-cols-4 md:gap-x-4">
           <div className="flex flex-col items-center justify-start space-y-2">
             <ShoppingBag />
             <p className="text-sm font-bold">Free Shipping</p>
